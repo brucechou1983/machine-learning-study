@@ -1,0 +1,6 @@
+.DS_Store
+[._]*.s[a-w][a-z]
+[._]s[a-w][a-z]
+node_modules
+npm-debug.log*
+/.idea/

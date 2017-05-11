@@ -11,7 +11,7 @@ const _updateWeights = Symbol();
 const _sample2vec = Symbol();
 const _labels2vec = Symbol();
 
-class Perceptron {
+export default class Perceptron {
   constructor(verbose=0) {
     this[_iters] = 0;
     this[_verbose] = verbose;
@@ -101,6 +101,4 @@ class Perceptron {
     return this[_w];
   }
 }
-
-export default Perceptron;
 

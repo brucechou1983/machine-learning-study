@@ -1,6 +1,6 @@
-import Perceptron from './lib/linear_model/pla';
-import trainData from '../data/train_data.json';
-import testData from '../data/test_data.json';
+import Perceptron from '../lib/linear_model/pla';
+import trainData from '../../data/train_data.json';
+import testData from '../../data/test_data.json';
 
 const p = new Perceptron();
 

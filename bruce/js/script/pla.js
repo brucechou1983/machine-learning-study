@@ -1,25 +1,20 @@
+import 'console.table';
 import Perceptron from '../lib/linear_model/pla';
-import trainData from '../../data/train_data.json';
-import testData from '../../data/test_data.json';
-// import { classificationReport } from './metrics';
+import trainData from '../../data/w1/linear_separable/train_data.json';
+import testData from '../../data/w1/linear_separable/test_data.json';
+import { classificationReport } from '../lib/metrics';
 
 const p = new Perceptron();
 
 // train
 p.fit(trainData.x, trainData.y);
 
-// in-sample prediction
-console.log(`******************************************`);
-console.log(`in-sample prediction: ${p.predict(trainData.x)}`);
-console.log(`ground truth        : ${trainData.y}`);
-
 // get weights
-console.log(`\n******************************************`);
+console.log(`******************************************`);
 console.log(`final weights: ${p.getParams()}`);
 
 // predict
-console.log(`\n******************************************`);
-console.log(`prediction  : ${p.predict(testData.x)}`);
-console.log(`ground truth: ${testData.y}`);
+const yHat = p.predict(testData.x);
 
-// console.log(classificationReport(testData.y, yHat));
+console.log(`******************************************`);
+console.table(classificationReport(testData.y, yHat));

@@ -2,6 +2,7 @@
 
 ## Linear Model
 - PLA
+- PocketPLA
 
 ## Metrics
 - classificationReport

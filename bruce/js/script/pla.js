@@ -7,7 +7,7 @@ import { classificationReport } from '../lib/metrics';
 const p = new Perceptron();
 
 // train
-p.fit(trainData.x, trainData.y);
+p.fit({ x: trainData.x, y: trainData.y });
 
 // get weights
 console.log(`******************************************`);

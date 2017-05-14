@@ -27,35 +27,6 @@ export default class PocketPLA extends Perceptron {
     return errorCounts;
   }
 
-  // override
-  _updateWeights(x, y, sample) {
-    for (let i=0; i < x.length; i++) {
-      if (( x[i].dot(this.w_) * y[i] ) <= 0) {
-        if (this.verbose_ > 0) {
-          console.log('*************************************');
-          console.log(`error case: ${x[i]}, ${this.w_}, ${y[i]}`);
-        }
-        this.w_ = ( y[i] > 0 ) ? this.w_.add(x[i]) : this.w_.subtract(x[i]);
-
-        // update best weights
-        const errorCounts = this._countError(x, y, this.w_, sample);
-        if (!this.best_ || (this.best_.errorCounts > errorCounts)) {
-          this.best_ = {
-            errorCounts,
-            w: this.w_,
-          };
-        }
-
-        if (this.verbose_ > 0) {
-          console.log(`new weights: ${this.w_}`);
-          console.log('*************************************');
-        }
-        return true;
-      }
-    }
-    return false;
-  }
-
   fit({ x, y, initWeights, sample, maxIter=100000 } = {}) {
     if (this.verbose_) {
       console.log('Training PocketPLA model ...');
@@ -75,9 +46,20 @@ export default class PocketPLA extends Perceptron {
       if ((this.iters_ % 1000) === 0) {
         console.log(`iteration: ${this.iters_}/${maxIter}`);
       }
-      if (this._updateWeights(xVectors, yEncoded, sample) === false) {
+      if (this._updateWeights(xVectors, yEncoded) === false) {
         resolved = true;
         break;
+      }
+
+      // update best weights
+      if (this.iters_ >= maxPLAIter) {
+        const errorCounts = this._countError(xVectors, yEncoded, this.w_, sample);
+        if (!this.best_ || (this.best_.errorCounts > errorCounts)) {
+          this.best_ = {
+            errorCounts,
+            w: this.w_,
+          };
+        }
       }
       this.iters_ += 1;
     }

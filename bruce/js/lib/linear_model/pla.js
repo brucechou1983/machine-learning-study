@@ -102,5 +102,9 @@ export default class Perceptron {
   getParams() {
     return this.w_;
   }
+
+  getIter() {
+    return this.iters_;
+  }
 }
 

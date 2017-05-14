@@ -1,0 +1,4 @@
+lib/**/*.spec.js
+--require test/setup
+--timeout 10000
+--recursive

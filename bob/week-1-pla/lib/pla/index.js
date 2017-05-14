@@ -2,19 +2,22 @@ import _ from 'lodash';
 import { Vector } from 'vectorious';
 import Debug from 'debug';
 
-const _initWeights = Symbol();
-const _updateWeights = Symbol();
-const _createSampleVectors = Symbol();
-const _weight = Symbol();
-const _maxIterator = 10000;
+export const _initWeights = Symbol();
+export const _updateWeights = Symbol();
+export const _createSampleVectors = Symbol();
+export const _maxIterator = Symbol();
+export const _weight = Symbol();
+
 const _debugUpdate = Debug('PLA:update');
 const _debugTraining = Debug('PLA:training');
+const _debugPredict = Debug('PLA:predict');
 
 // sign(w0 * 1 + w1x1 + w2x2)
 export default class Pla {
 
-  constructor(weight) {
+  constructor(weight, maxIterator = 10000) {
     this[_weight] = weight;
+    this[_maxIterator] = maxIterator;
   }
 
   get [_createSampleVectors]() {
@@ -34,6 +37,7 @@ export default class Pla {
       _.forEach(samples, (sample, index) => {
         const label = labels[index];
         const signOfWx = Math.sign(sample.dot(this[_weight]));
+
         if (signOfWx !== label) {
           _debugUpdate('index-sample, weight, label');
           _debugUpdate(`error case: ${index}-${sample}, ${this[_weight]}, ${label}`);
@@ -63,6 +67,8 @@ export default class Pla {
       throw new Error('You need to train the model first!');
     }
 
+    _debugPredict(`weight: ${this[_weight]}`);
+
     const xVectors = _.map(sample, (features) => this[_createSampleVectors](features));
 
     return _.map(xVectors, (xVector) => Math.sign(xVector.dot(this[_weight])));
@@ -73,11 +79,11 @@ export default class Pla {
     let iterator = 0;
     const { x, y } = data;
 
-    this[_weight] = this[_initWeights](x[0].length);
+    this[_weight] = this[_weight] || this[_initWeights](x[0].length);
     const xVectors = _.map(x, (features) => this[_createSampleVectors](features));
 
     while (!done) {
-      if (iterator === _maxIterator) {
+      if (iterator === this[_maxIterator]) {
         break;
       }
 

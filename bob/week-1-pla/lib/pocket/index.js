@@ -12,7 +12,7 @@ const _pla = Symbol();
 const _countError = Symbol();
 const _bestModel = Symbol();
 const _debugTraining = Debug('Pocket:training');
-const _debugPredict = Debug('PLA:predict');
+const _debugPredict = Debug('Pocket:predict');
 
 export default class Pocket {
 

@@ -3,7 +3,9 @@ import json
 import numpy as np
 
 class PLA:
-    __W = None
+    def __init__(self):
+        self.__W = None
+
     def train(self, X, Y):
         # add x0
         X = np.append(X, np.ones((len(X), 1)), axis = 1)

@@ -4,9 +4,12 @@ import random
 import numpy as np
 
 class PocketPLA:
-    __W = None
-    def __self__():
-        random.seed()
+    __initFlag = False
+    def __init__(self):
+        if not PocketPLA.__initFlag:
+            PocketPLA.__initFlag = True
+            random.seed()
+        self.__W = None
 
     def train(self, X, Y, I = 100):
         # add x0

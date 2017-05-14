@@ -63,12 +63,12 @@ export default class Pocket {
     }
 
     const { errorCounts, weight } = this[_bestModel];
-    const xVectors = _.map(sample, (features) => this[_createSampleVectors](features));
-
     _debugPredict(`errorCounts: ${errorCounts}`);
     _debugPredict(`weight: ${weight}`);
 
-    return _.map(xVectors, (xVector) => Math.sign(xVector.dot(weight)));
+    this[_pla][_weight] = weight;
+
+    return this[_pla].predict(sample);
   }
 
   training(data, sampleCount = 0) {

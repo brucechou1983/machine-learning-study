@@ -2,13 +2,17 @@ import 'console.table';
 import PocketPLA from '../lib/linear_model/pocket';
 import trainData from '../../data/w1/not_linear_separable/train_data.10k.json';
 import testData from '../../data/w1/not_linear_separable/test_data.10k.json';
+// import trainData from '../../data/w1/not_linear_separable/train_data.json';
+// import testData from '../../data/w1/not_linear_separable/test_data.json';
+// import trainData from '../../data/w1/linear_separable/train_data.json';
+// import testData from '../../data/w1/linear_separable/test_data.json';
 import { classificationReport } from '../lib/metrics';
 
 const p = new PocketPLA();
-
 console.log(`******************************************`);
 console.time(`training`);
 p.fit({ x: trainData.x, y: trainData.y, maxIter: 10000 });
+console.log(`total iterations: ${p.getIter()}`);
 console.timeEnd(`training`);
 console.time(`testing`);
 const yHat = p.predict(testData.x);

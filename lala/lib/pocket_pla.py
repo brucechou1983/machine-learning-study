@@ -17,21 +17,29 @@ class PocketPLA:
 
         # init weight vector
         W = np.zeros(X.shape[1])
+
         #
         best_W = W
         best_rate = 0.0
+        vector_size = len(X)
 
         for i in range(I):
-            pick = int(random.random() * len(X)) % len(X)
-            x = X[pick]
-            y = Y[pick]
-            if np.sign(np.dot(W, x)) != y:
-                W = W + x * y
+            index = pick = int(random.random() * vector_size) % vector_size
+            stop = False
+            while not stop:
+                x = X[index]
+                y = Y[index]
+                if np.sign(np.dot(W, x)) != y:
+                    W = W + x * y
+                    stop = True
 
-            rate = np.average(np.sign(np.inner(W, X)) == Y)
-            if rate > best_rate:
-                best_W = W
-                best_rate = rate
+                index = (index + 1) % vector_size
+                stop = index == pick
+            else:
+                rate = np.average(np.sign(np.inner(W, X)) == Y)
+                if rate > best_rate:
+                    best_W = W
+                    best_rate = rate
 
         # setup W
         self.__W = best_W
